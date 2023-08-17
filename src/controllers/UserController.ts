@@ -49,4 +49,13 @@ export default class UserController {
       return res.status(error.status).json(error.data);
     }
   }
+
+  static async login(req: Request, res: Response) {
+    try {
+      const response = await UserServices.login(req.body);
+      return res.status(statusCode.SUCCESS).json(response);
+    } catch (error: IError | any) {
+      return res.status(error.status).json(error.data);
+    }
+  }
 }

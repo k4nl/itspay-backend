@@ -1,7 +1,13 @@
-import { IUserCreate, IUserFindUnique, IUserUpdate, IUserFilter } from "../interfaces/user.interface";
+import {
+  IUserCreate,
+  IUserFindUnique,
+  IUserUpdate,
+  IUserFilter,
+  IUserLogin
+} from "../interfaces/user.interface";
 import { PrismaClient } from "@prisma/client";
 import { User } from "../models/user.model";
-import { hash } from "bcrypt";
+import Bcrypt from "../utils/Bcrypt";
 import Validate from "../utils/ValidateUser";
 import Filter from "../utils/Filter";
 import Pagination from "../utils/Pagination";
@@ -30,7 +36,7 @@ class UserService {
     Validate.userCreateData(userData);
     const userExists = await this.findByUniqueKey({ email: userData.email });
     Validate.userAlreadyExists(userExists);
-    const hashedPassword = await hash(userData.password, 10);
+    const hashedPassword = await Bcrypt.hash(userData.password);
     const response: Partial<User> = await this.prisma.user.create({ data: { ...userData, password: hashedPassword }, select: this.excludePassword });
     return response;
   }
@@ -39,7 +45,7 @@ class UserService {
     Validate.userUpdateData(userData);
     const userExists = await this.findByUniqueKey({ id });
     Validate.userNotFound(userExists);
-    const hashedPassword = userData.password ? await hash(userData.password, 10) : undefined;
+    const hashedPassword = userData.password ? await Bcrypt.hash(userData.password) : undefined;
     const newData = hashedPassword ? { ...userData, password: hashedPassword, updatedAt: new Date() } : { ...userData, updatedAt: new Date() };
     const response: Partial<User> = await this.prisma.user.update({ where: { id }, data: newData, select: this.excludePassword });
     return { name: response.name, email: response.email, id: response.id };
@@ -80,6 +86,13 @@ class UserService {
     return response;
   }
 
+  static async login(loginData: IUserLogin): Promise<Partial<User> | null> {
+    Validate.loginData(loginData);
+    const response: User = await this.prisma.user.findUnique({ where: { email: loginData.email } });
+    Validate.userNotFound(response);
+    await Bcrypt.compare(loginData.password, response.password);
+    return { name: response.name, email: response.email, id: response.id };
+  }
 
 }
 

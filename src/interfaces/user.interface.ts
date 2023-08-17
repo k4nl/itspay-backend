@@ -23,3 +23,8 @@ export interface IUserFilter {
   page?: number;
   limit?: number;
 }
+
+export interface IUserLogin {
+  email: string;
+  password: string;
+}

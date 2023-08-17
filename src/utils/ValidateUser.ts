@@ -1,4 +1,4 @@
-import { IUserCreate, IUserFindUnique, IUserUpdate } from "../interfaces/user.interface";
+import { IUserCreate, IUserFindUnique, IUserLogin, IUserUpdate } from "../interfaces/user.interface";
 import { User } from "../models/user.model";
 import CustomError from "./CustomError";
 import Validate from "./Validate";
@@ -34,6 +34,11 @@ export default class ValidateUser extends Validate {
     ValidateUser.email(data.email);
     ValidateUser.password(data.password);
     ValidateUser.userName(data.name);
+  }
+
+  static loginData(data: IUserLogin) {
+    ValidateUser.email(data.email);
+    ValidateUser.password(data.password);
   }
 
   static userUpdateData(data: IUserUpdate) {
@@ -72,4 +77,6 @@ export default class ValidateUser extends Validate {
       }
     }
   }
+
+  static 
 }
