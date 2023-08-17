@@ -3,7 +3,8 @@ import {
   IUserFindUnique,
   IUserUpdate,
   IUserFilter,
-  IUserLogin
+  IUserLogin,
+  IUserResponse
 } from "../interfaces/user.interface";
 import { PrismaClient } from "@prisma/client";
 import { User } from "../models/user.model";
@@ -11,6 +12,7 @@ import Bcrypt from "../utils/Bcrypt";
 import Validate from "../utils/ValidateUser";
 import Filter from "../utils/Filter";
 import Pagination from "../utils/Pagination";
+import Auth from "../middleware/Auth";
 
 class UserService {
   private static prisma = new PrismaClient();
@@ -32,13 +34,13 @@ class UserService {
     return response;
   }
 
-  static async create(userData: IUserCreate): Promise<Partial<User>> {
+  static async create(userData: IUserCreate) {
     Validate.userCreateData(userData);
     const userExists = await this.findByUniqueKey({ email: userData.email });
     Validate.userAlreadyExists(userExists);
     const hashedPassword = await Bcrypt.hash(userData.password);
     const response: Partial<User> = await this.prisma.user.create({ data: { ...userData, password: hashedPassword }, select: this.excludePassword });
-    return response;
+    return { ...response, token: Auth.createToken({ id: response.id, email: response.email }) };
   }
 
   static async update(id: number, userData: IUserUpdate): Promise<Partial<User>> {

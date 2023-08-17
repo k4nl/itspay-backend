@@ -41,4 +41,16 @@ export default class Validate {
       throw new CustomError(400, 'Invalid date');
     }
   }
+
+  static token(isValid: any) {
+    if (!isValid) {
+      throw new CustomError(401, 'Unauthorized');
+    }
+  }
+
+  static headers(headers: any) {
+    if (!headers.authorization) {
+      throw new CustomError(401, 'Unauthorized');
+    }
+  }
 }
