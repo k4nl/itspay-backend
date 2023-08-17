@@ -4,6 +4,7 @@ import { User } from "../models/user.model";
 import { hash } from "bcrypt";
 import Validate from "../utils/ValidateUser";
 import Filter from "../utils/Filter";
+import Pagination from "../utils/Pagination";
 
 class UserService {
   private static prisma = new PrismaClient();
@@ -52,23 +53,29 @@ class UserService {
 
   static async filter(filter: IUserFilter): Promise<Partial<User>[]> {
     const filterObj = Filter.createUserFilter(filter);
+    const { limit, offset } = Pagination.handlePage(filter);
     const response: User[] = await this.prisma.user.findMany({
       where: filterObj,
       select: this.excludePassword,
       orderBy: {
         createdAt: 'desc'
-      }
+      },
+      take: limit,
+      skip: offset
     });
     return response;
   }
 
   static async getAll(filter: IUserFilter | null | undefined): Promise<Partial<User>[]> {
-    if (filter) return await this.filter(filter);
+    if (filter) return this.filter(filter);
+    const { limit, offset } = new Pagination().defaultPagination;
     const response: User[] = await this.prisma.user.findMany({
       select: this.excludePassword,
       orderBy: {
         createdAt: 'desc'
-      }
+      },
+      take: limit,
+      skip: offset
     });
     return response;
   }

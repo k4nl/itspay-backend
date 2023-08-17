@@ -4,6 +4,8 @@ import Validate from "./Validate";
 import moment from "moment";
 
 export default class Filter {
+
+  static excludePaginationFields = ['page', 'limit'];
   
   static userFilterFields() {
     return {
@@ -43,6 +45,7 @@ export default class Filter {
         const updatedValue = filterFields[key](value);
         filterObj[key] = updatedValue;
       } else {
+        if (this.excludePaginationFields.includes(key)) continue;
         throw new CustomError(400, `Invalid filter field ${key}`);
       }
     }

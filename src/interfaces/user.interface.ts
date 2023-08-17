@@ -20,4 +20,6 @@ export interface IUserFilter {
   name?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  page?: number;
+  limit?: number;
 }
