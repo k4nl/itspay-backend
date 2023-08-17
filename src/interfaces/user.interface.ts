@@ -28,3 +28,12 @@ export interface IUserLogin {
   email: string;
   password: string;
 }
+
+export interface IUserResponse {
+  id: number;
+  name: string;
+  email: string;
+  token: string;
+  createdAt: Date;
+  updatedAt: Date;
+}

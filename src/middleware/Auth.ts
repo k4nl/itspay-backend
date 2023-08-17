@@ -1,18 +1,28 @@
-import { IUserLogin } from "../interfaces/user.interface";
-import { PrismaClient } from "@prisma/client";
 import { User } from "../models/user.model";
-import Bcrypt from "../utils/Bcrypt";
-import Validate from "../utils/ValidateUser";
+import Validate from "../utils/Validate";
+import jwt from "jsonwebtoken";
+import { Response } from "express";
+import { statusCode } from "../utils/status";
+require("dotenv").config();
 
 export default class Auth {
-  private static prisma = new PrismaClient();
 
-  static async login(loginData: IUserLogin): Promise<Partial<User> | null> {
-    Validate.loginData(loginData);
-    const response: User = await this.prisma.user.findUnique({ where: { email: loginData.email } });
-    Validate.userNotFound(response);
-    await Bcrypt.compare(loginData.password, response.password);
-    return { name: response.name, email: response.email, id: response.id };
+  static createToken(user: Partial<User>): string {
+    return jwt.sign({ user }, process.env.SECRET_KEY as string, {
+      expiresIn: "24h",
+    });
   }
 
+  static validateToken(request: any, response: Response, next: any) {
+    try {
+      Validate.headers(request.headers);
+      const authorization = request.headers.authorization;
+      const decoded = jwt.verify(authorization, process.env.SECRET_KEY as string);
+      Validate.token(decoded);
+      request.user = decoded;
+      next();
+    } catch (error) {
+      return response.status(statusCode.UNAUTHORIZED).json({ message: 'Unauthorized' });
+    }
+  }
 }
