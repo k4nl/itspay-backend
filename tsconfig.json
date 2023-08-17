@@ -19,6 +19,8 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "allowJs": true,
+    "strict": true,
+    "lib": ["esnext"]
   },
   "exclude": ["node_modules", "jest.config.js"],
   "include": ["src/**/*"],
