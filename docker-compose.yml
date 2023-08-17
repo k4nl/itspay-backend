@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  postgres:
+    container_name: itspay-postgres
+    image: postgres:14.5-alpine
+    working_dir: /application
+    volumes:
+      - postgres:/data/postgres
+      - .:/application
+    environment:
+      - PGDATA=/data/postgres
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_DATABASE}
+      - PGHOST=${DB_HOST}
+      - PGPORT=${DB_PORT}
+    ports:
+      - 5432:${DB_PORT}
+
+  web:
+    build: .
+    ports:
+      - 3000:3000
+    container_name: itspay-api
+    command: npm run start:dev
+    volumes:
+      - .:/usr/app
+    depends_on:
+      - postgres
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${DB_DATABASE}
+
+volumes:
+  postgres:
