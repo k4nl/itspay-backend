@@ -12,4 +12,40 @@ export default class UserController {
       return res.status(error.status).json(error.data);
     }
   }
+
+  static async get(req: Request, res: Response) {
+    try {
+      const response = await UserServices.findByUniqueKey({ id: Number(req.params.id) });
+      return res.status(statusCode.SUCCESS).json(response);
+    } catch (error: IError | any) {
+      return res.status(error.status).json(error.data);
+    }
+  }
+
+  static async getAll(_req: Request, res: Response) {
+    try {
+      const response = await UserServices.getAll();
+      return res.status(statusCode.SUCCESS).json(response);
+    } catch (error: IError | any) {
+      return res.status(error.status).json(error.data);
+    }
+  }
+
+  static async delete(req: Request, res: Response) {
+    try {
+      const response = await UserServices.delete(Number(req.params.id));
+      return res.status(statusCode.SUCCESS).json(response);
+    } catch (error: IError | any) {
+      return res.status(error.status).json(error.data);
+    }
+  }
+
+  static async update(req: Request, res: Response) {
+    try {
+      const response = await UserServices.update(Number(req.params.id), req.body);
+      return res.status(statusCode.SUCCESS).json(response);
+    } catch (error: IError | any) {
+      return res.status(error.status).json(error.data);
+    }
+  }
 }

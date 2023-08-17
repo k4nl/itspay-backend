@@ -1,55 +1,29 @@
-import { IUserCreate } from "../interfaces/user-create.interface";
-import { User } from "../models/user.model";
 import CustomError from "./CustomError";
 
 export default class Validate {
+  isRequired: string;
+  isInvalid: string;
+  
+  constructor(type: string) {
+    this.isRequired = `${type} is required`;
+    this.isInvalid = `Invalid ${type} type, it must be`;
+  }
 
-  static email(email: string) {
-    if(!email) {
-      throw new CustomError(400, 'Email is required');
-    }
-    if (typeof email !== 'string') {
-      throw new CustomError(400, 'Email must be a string');
-    }
-    const regex = /\S+@\S+\.\S+/;
-    if (!regex.test(email)) {
-      throw new CustomError(400, 'Invalid email');
+  required(value: any) {
+    if(!value) {
+      throw new CustomError(400, this.isRequired);
     }
   }
 
-  static password(password: string) {
-    if(!password) {
-      throw new CustomError(400, 'Password is required');
-    }
-    if (typeof password !== 'string') {
-      throw new CustomError(400, 'Password must be a string');
-    }
-    if (password.length < 3) {
-      throw new CustomError(400, 'Password must be at least 3 characters');
+  string(value: string) {
+    if (typeof value !== 'string') {
+      throw new CustomError(400, `${this.isInvalid} a string`);
     }
   }
 
-  static userName(name: string) {
-    if(!name) {
-      throw new CustomError(400, 'Name is required');
-    }
-    if (typeof name !== 'string') {
-      throw new CustomError(400, 'Name must be a string');
-    }
-    if (name.length < 3) {
-      throw new CustomError(400, 'Name must be at least 3 characters');
-    }
-  }
-
-  static userCreateData(data: IUserCreate) {
-    Validate.email(data.email);
-    Validate.password(data.password);
-    Validate.userName(data.name);
-  }
-
-  static userAlreadyExists(user: Partial<User> | null) {
-    if(user) {
-      throw new CustomError(400, 'User already exists');
+  number(value: number) {
+    if (typeof value !== 'number') {
+      throw new CustomError(400, `${this.isInvalid} a number`);
     }
   }
 }
