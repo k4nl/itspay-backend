@@ -9,10 +9,7 @@ export default class ValidateUser extends Validate {
     const validate = new Validate('Email');
     validate.required(email);
     validate.string(email);
-    const regex = /\S+@\S+\.\S+/;
-    if (!regex.test(email)) {
-      throw new CustomError(400, 'Invalid email');
-    }
+    validate.email(email);
   }
 
   static password(password: string) {

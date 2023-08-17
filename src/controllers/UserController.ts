@@ -22,11 +22,12 @@ export default class UserController {
     }
   }
 
-  static async getAll(_req: Request, res: Response) {
+  static async getAll(req: Request, res: Response) {
     try {
-      const response = await UserServices.getAll();
+      const response = await UserServices.getAll(req.query);
       return res.status(statusCode.SUCCESS).json(response);
     } catch (error: IError | any) {
+      console.log(error)
       return res.status(error.status).json(error.data);
     }
   }

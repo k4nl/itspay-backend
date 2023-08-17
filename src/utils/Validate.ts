@@ -1,4 +1,5 @@
 import CustomError from "./CustomError";
+import moment from "moment";
 
 export default class Validate {
   isRequired: string;
@@ -24,6 +25,20 @@ export default class Validate {
   number(value: number) {
     if (typeof value !== 'number') {
       throw new CustomError(400, `${this.isInvalid} a number`);
+    }
+  }
+
+  email(value: string) {
+    const regex = /\S+@\S+\.\S+/;
+    if (!regex.test(value)) {
+      throw new CustomError(400, 'Invalid email');
+    }
+  }
+
+  timestamp(value: string | Date) {
+    const date = moment(value, 'DD-MM-YYYY');
+    if (!date.isValid()) {
+      throw new CustomError(400, 'Invalid date');
     }
   }
 }

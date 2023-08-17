@@ -1,8 +1,9 @@
-import { IUserCreate, IUserFindUnique, IUserUpdate } from "interfaces/user.interface";
+import { IUserCreate, IUserFindUnique, IUserUpdate, IUserFilter } from "../interfaces/user.interface";
 import { PrismaClient } from "@prisma/client";
 import { User } from "../models/user.model";
 import { hash } from "bcrypt";
 import Validate from "../utils/ValidateUser";
+import Filter from "../utils/Filter";
 
 class UserService {
   private static prisma = new PrismaClient();
@@ -16,7 +17,6 @@ class UserService {
   };
 
   static async findByUniqueKey(key: IUserFindUnique): Promise<Partial<User> | null> {
-    console.log(key);
     Validate.uniqueKey(key);
     const response: Partial<User> | null = key.id
       ? await this.prisma.user.findUnique({ where: { id: key.id }, select: this.excludePassword })
@@ -50,7 +50,20 @@ class UserService {
     await this.prisma.user.delete({ where: { id } });
   }
 
-  static async getAll(): Promise<Partial<User>[]> {
+  static async filter(filter: IUserFilter): Promise<Partial<User>[]> {
+    const filterObj = Filter.createUserFilter(filter);
+    const response: User[] = await this.prisma.user.findMany({
+      where: filterObj,
+      select: this.excludePassword,
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
+    return response;
+  }
+
+  static async getAll(filter: IUserFilter | null | undefined): Promise<Partial<User>[]> {
+    if (filter) return await this.filter(filter);
     const response: User[] = await this.prisma.user.findMany({
       select: this.excludePassword,
       orderBy: {
@@ -59,6 +72,7 @@ class UserService {
     });
     return response;
   }
+
 
 }
 

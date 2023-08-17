@@ -13,3 +13,11 @@ export interface IUserFindUnique {
   id?: number;
   email?: string;
 }
+
+export interface IUserFilter {
+  id?: number;
+  email?: string;
+  name?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
