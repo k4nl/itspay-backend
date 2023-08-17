@@ -1,5 +1,5 @@
 import { User } from "../models/user.model";
-import Validate from "../utils/Validate";
+import Validate from "../utils/validate";
 import jwt from "jsonwebtoken";
 import { Response } from "express";
 import { statusCode } from "../utils/status";

@@ -1,7 +1,8 @@
-import { IUserCreate, IUserFindUnique, IUserLogin, IUserUpdate } from "../interfaces/user.interface";
-import { User } from "../models/user.model";
-import CustomError from "./CustomError";
-import Validate from "./Validate";
+import { IUserCreate, IUserFindUnique, IUserLogin, IUserUpdate } from "../../interfaces/user.interface";
+import { User } from "../../models/user.model";
+import CustomError from "../CustomError";
+import Validate from ".";
+import { statusCode } from "../status";
 
 export default class ValidateUser extends Validate {
 
@@ -17,7 +18,7 @@ export default class ValidateUser extends Validate {
     validate.required(password);
     validate.string(password);
     if (password.length < 3) {
-      throw new CustomError(400, 'Password must be at least 3 characters');
+      throw new CustomError(statusCode.BAD_REQUEST, 'Password must be at least 3 characters');
     }
   }
 
@@ -26,7 +27,7 @@ export default class ValidateUser extends Validate {
     validate.required(name);
     validate.string(name);
     if (name.length < 3) {
-      throw new CustomError(400, 'Name must be at least 3 characters');
+      throw new CustomError(statusCode.BAD_REQUEST, 'Name must be at least 3 characters');
     }
   }
 
@@ -52,19 +53,19 @@ export default class ValidateUser extends Validate {
 
   static userAlreadyExists(user: Partial<User> | null) {
     if(user) {
-      throw new CustomError(400, 'User already exists');
+      throw new CustomError(statusCode.BAD_REQUEST, 'User already exists');
     }
   }
 
   static userNotFound(user: Partial<User> | null) {
     if(!user) {
-      throw new CustomError(404, 'User not found');
+      throw new CustomError(statusCode.NOT_FOUND, 'User not found');
     }
   }
 
   static uniqueKey(key: IUserFindUnique) {
     if (!key.id && !key.email) {
-      throw new CustomError(400, 'Key must have id or email');
+      throw new CustomError(statusCode.BAD_REQUEST, 'Key must have id or email');
     }
     if (key.email) {
       ValidateUser.email(key.email);
@@ -73,10 +74,8 @@ export default class ValidateUser extends Validate {
       const validate = new Validate('Id');
       validate.number(key.id);
       if (key.id < 1) {
-        throw new CustomError(400, 'Id must be at least 1');
+        throw new CustomError(statusCode.BAD_REQUEST, 'Id must be at least 1');
       }
     }
   }
-
-  static 
 }

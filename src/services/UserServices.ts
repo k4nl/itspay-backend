@@ -9,7 +9,7 @@ import {
 import { PrismaClient } from "@prisma/client";
 import { User } from "../models/user.model";
 import Bcrypt from "../utils/Bcrypt";
-import Validate from "../utils/ValidateUser";
+import Validate from "../utils/validate/ValidateUser";
 import Filter from "../utils/Filter";
 import Pagination from "../utils/Pagination";
 import Auth from "../middleware/Auth";

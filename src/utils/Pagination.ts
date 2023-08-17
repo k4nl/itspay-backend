@@ -1,5 +1,5 @@
 import { IPagination } from "interfaces/pagination.interface";
-import Validate from "./Validate";
+import Validate from "./validate";
 
 export default class Pagination {
   public defaultPagination = {
