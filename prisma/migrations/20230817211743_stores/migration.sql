@@ -1,0 +1,14 @@
+/*
+  Warnings:
+
+  - Added the required column `createdBy` to the `Stores` table without a default value. This is not possible if the table is not empty.
+
+*/
+-- DropForeignKey
+ALTER TABLE "Stores" DROP CONSTRAINT "Stores_id_fkey";
+
+-- AlterTable
+ALTER TABLE "Stores" ADD COLUMN     "createdBy" INTEGER NOT NULL;
+
+-- AddForeignKey
+ALTER TABLE "Stores" ADD CONSTRAINT "Stores_createdBy_fkey" FOREIGN KEY ("createdBy") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

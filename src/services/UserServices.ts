@@ -9,7 +9,7 @@ import {
 import { PrismaClient } from "@prisma/client";
 import { User } from "../models/user.model";
 import Bcrypt from "../utils/Bcrypt";
-import Validate from "../utils/ValidateUser";
+import Validate from "../utils/validate/ValidateUser";
 import Filter from "../utils/Filter";
 import Pagination from "../utils/Pagination";
 import Auth from "../middleware/Auth";
@@ -37,6 +37,7 @@ class UserService {
   static async create(userData: IUserCreate) {
     Validate.userCreateData(userData);
     const userExists = await this.findByUniqueKey({ email: userData.email });
+    console.log(userExists)
     Validate.userAlreadyExists(userExists);
     const hashedPassword = await Bcrypt.hash(userData.password);
     const response: Partial<User> = await this.prisma.user.create({ data: { ...userData, password: hashedPassword }, select: this.excludePassword });
@@ -45,7 +46,7 @@ class UserService {
 
   static async update(id: number, userData: IUserUpdate): Promise<Partial<User>> {
     Validate.userUpdateData(userData);
-    const userExists = await this.findByUniqueKey({ id });
+    const userExists = await this.findByUniqueKey({ id })
     Validate.userNotFound(userExists);
     const hashedPassword = userData.password ? await Bcrypt.hash(userData.password) : undefined;
     const newData = hashedPassword ? { ...userData, password: hashedPassword, updatedAt: new Date() } : { ...userData, updatedAt: new Date() };
