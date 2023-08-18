@@ -2,6 +2,7 @@ import { IStoreCreate, IStoreUpdate } from "../interfaces/store.interface";
 import { IUserAuth } from "../interfaces/user.interface";
 import { PrismaClient } from "@prisma/client";
 import { Store } from "../models/store.model";
+import { UserStores } from "../models/userStores.model";
 import Filter from "../utils/Filter";
 import Pagination from "../utils/Pagination";
 import Validate from "../utils/validate/ValidateStore";
@@ -79,11 +80,15 @@ class StoreServices {
   static async update(id: number, storeData: IStoreUpdate): Promise<Store> {
     await this.findStoreById(id);
     Validate.validateStoreUpdate(storeData);
+    if (storeData.owner) {
+      const user = await UserService.findByUniqueKey({ id: storeData.owner });
+      ValidateUser.userNotFound(user);
+    }
+    const { owner, ...data } = storeData;
     const response: Store = await this.prisma.store.update({
       where: { id },
-      data: { ...storeData, updatedAt: new Date() }
+      data: { ...data, updatedAt: new Date(), owner: { update: { ownerId: owner } } },
     });
-    Validate.response(response);  
     return response;
   }
 

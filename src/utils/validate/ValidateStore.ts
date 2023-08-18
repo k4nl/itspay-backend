@@ -7,7 +7,11 @@ import { Store } from "models/store.model";
 
 export default class ValidateStore extends Validate {
 
-  static updateFields: string[] = ['name', 'address', 'logo', 'url'];
+  static updateFields: string[] = ['name', 'address', 'logo', 'url', 'owner'];
+
+  static empty(data: any) {
+    if (Object.keys(data).length === 0) throw new CustomError( statusCode.BAD_REQUEST, 'No data to update');
+  }
 
   static owner(owner: number) {
     const validate = new Validate('Owner');
@@ -49,15 +53,19 @@ export default class ValidateStore extends Validate {
   }
 
   static validateStoreUpdate(storeData: IStoreUpdate): void {
-    if (!storeData) throw new CustomError( statusCode.BAD_REQUEST,'Store data is required');
+    ValidateStore.empty(storeData);
     for (const [field, value] of Object.entries(storeData)) {
       if (!this.updateFields.includes(field)) throw new CustomError( statusCode.BAD_REQUEST,`Invalid field ${field}`);
       const validate = new Validate(field);
+      if (field === 'owner') {
+        validate.required(value);
+        validate.number(value);
+        continue;
+      }
       validate.string(value);
       validate.required(value);
     }
   }
-
 
   static validateStore(storeData: IStoreCreate): void {
     ValidateStore.storeName(storeData.name);

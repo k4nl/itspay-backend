@@ -1,4 +1,6 @@
 export interface UserStores {
-  userId: number;
+  ownerId: number;
   storeId: number;
+  createdAt: Date;
+  updatedAt: Date;
 }

@@ -11,6 +11,7 @@ export interface IStoreUpdate {
   address?: string,
   logo?: string,
   url?: string
+  owner?: number
 }
 
 export interface IStoreFilter {

@@ -1,6 +1,8 @@
 import { IUserFilter } from "../interfaces/user.interface";
 import { IStoreFilter } from "../interfaces/store.interface";
 import CustomError from "./CustomError";
+import ValidateStore from "./validate/ValidateStore";
+import ValidateUser from "./validate/ValidateUser";
 import Validate from "./validate";
 import moment from "moment";
 import { statusCode } from "./status";
@@ -12,13 +14,11 @@ export default class Filter {
   static userFilterFields() {
     return {
       email: (value: string) => {
-        const validate = new Validate('Email');
-        validate.email(value);
+        ValidateUser.email(value);
         return value;
       },
       name: (value: string) => {
-        const validate = new Validate('Name');
-        validate.string(value);
+        ValidateUser.userName(value);
         return { contains: value };
       },
       createdAt: (value: string) => {
@@ -37,23 +37,19 @@ export default class Filter {
   static storeFilterFields() {
     return {
       name: (value: string) => {
-        const validate = new Validate('Name');
-        validate.string(value);
+        ValidateStore.storeName(value);
         return { contains: value };
       },
       address: (value: string) => {
-        const validate = new Validate('Address');
-        validate.string(value);
+        ValidateStore.adress(value);
         return { contains: value };
       },
       logo: (value: string) => {
-        const validate = new Validate('Logo');
-        validate.string(value);
+        ValidateStore.logo(value);
         return { contains: value };
       },
       url: (value: string) => {
-        const validate = new Validate('Url');
-        validate.string(value);
+        ValidateStore.url(value);
         return { contains: value };
       },
       createdAt: (value: string) => {
@@ -69,7 +65,7 @@ export default class Filter {
       owner: (value: string) => {
         const validate = new Validate('Owner');
         validate.number(Number(value));
-        return Number(value);
+        return { ownerId: Number(value) };
       },
       createdBy: (value: string) => {
         const validate = new Validate('CreatedBy');
