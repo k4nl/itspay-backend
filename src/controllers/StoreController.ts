@@ -44,6 +44,16 @@ export default class UserController {
     }
   }
 
+  static async deleteMany(req: Request, res: Response) {
+    try {
+      const response = await StoreServices.deleteMany(req.query.ids);
+      return res.status(statusCode.SUCCESS).json(response);
+    } catch (error: IError | any) {
+      if (!error.status) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' });
+      return res.status(error.status).json(error.data);
+    }
+  }
+
   static async update(req: Request, res: Response) {
     try {
       const response = await StoreServices.update(req.params.id, req.body);

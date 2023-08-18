@@ -41,4 +41,15 @@ export default class StoreMiddleware {
       return res.status(error.status).json(error.data);
     }
   }
+
+  static async deleteMany(req: Request, res: Response, next: NextFunction) {
+    try {
+      ValidateStore.storesId(req.query.ids);
+      req.query.ids = JSON.parse(req.query.ids);
+      next();
+    } catch (error: IError | any) {
+      console.log(error)
+      return res.status(error.status).json(error.data);
+    }
+  }
 }

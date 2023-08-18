@@ -88,6 +88,14 @@ class StoreServices {
     return response;
   }
 
+  static async deleteMany(ids: number[]): Promise<void> {
+    const stores = await this.prisma.store.findMany({ where: { id: { in: ids.map(Number) } }, select: { id: true } });
+    console.log(stores);
+    console.log(typeof ids[0]);
+    Validate.allStoresFound(stores, ids);
+    await this.prisma.store.deleteMany({ where: { id: { in: ids.map(Number) } } });
+  }
+  
   static async delete(id: string): Promise<void> {
     await this.findStoreById(id);
     await this.prisma.store.delete({
@@ -104,6 +112,8 @@ class StoreServices {
       take: limit,
       skip: offset,
     });
+
+    console.log(response);
 
     const total = await this.prisma.store.count({ where: { ...filterData } });
 
