@@ -4,24 +4,73 @@ import { PrismaClient } from "@prisma/client";
 import { Store } from "../models/store.model";
 import Filter from "../utils/Filter";
 import Pagination from "../utils/Pagination";
-import Auth from "../middleware/Auth";
 import Validate from "../utils/validate/ValidateStore";
+import ValidateUser from "../utils/validate/ValidateUser";
+import UserService from "./UserServices";
 
 class StoreServices {
   private static prisma = new PrismaClient();
+  private static includeUserStores = {
+  id:true,
+  name:true,
+  url:true,
+  logo:true,
+  address:true,
+  createdAt:true,
+  updatedAt:true,
+  createdBy:false,
+  owner: {
+      select: {
+        userInfo: {
+          select: {
+            id: true,
+            name: true,
+          }
+        }
+      }
+    },
+    createdByUser: {
+      select: {
+        name: true,
+        id: true,
+      }
+    }
+  }
 
   static async create(storeData: IStoreCreate, userData: IUserAuth): Promise<Store> {
     Validate.validateStore(storeData);
+    const user = await UserService.findByUniqueKey({ id: storeData.owner });
+    ValidateUser.userNotFound(user);
     const response: Store = await this.prisma.store.create({
-      data: {...storeData, createdBy: userData.id, createdAt: new Date() }
+      data: {
+        name: storeData.name,
+        address: storeData.address,
+        logo: storeData.logo,
+        url: storeData.url,
+        createdAt: new Date(),
+        createdByUser: {
+          connect: {
+            id: userData.id
+          }
+        },
+        owner: {
+          create: {
+            ownerId: storeData.owner
+          }
+        }
+      },
     });
+
+    Validate.response(response);
+
     return response;
   }
 
   static async findStoreById(id: number): Promise<Store>  {
     Validate.id(id);
     const response: Store = await this.prisma.store.findUnique({
-      where: { id }
+      where: { id },
+      select: this.includeUserStores,
     });
     Validate.found(response);
     return response;
@@ -34,6 +83,7 @@ class StoreServices {
       where: { id },
       data: { ...storeData, updatedAt: new Date() }
     });
+    Validate.response(response);  
     return response;
   }
 
@@ -49,6 +99,7 @@ class StoreServices {
     const { limit, offset } = Pagination.handlePage(filter);
     const response: Store[] = await this.prisma.store.findMany({
       where: { ...filterData },
+      select: this.includeUserStores,
       take: limit,
       skip: offset,
     });

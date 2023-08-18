@@ -9,6 +9,12 @@ export default class ValidateStore extends Validate {
 
   static updateFields: string[] = ['name', 'address', 'logo', 'url'];
 
+  static owner(owner: number) {
+    const validate = new Validate('Owner');
+    validate.required(owner);
+    validate.number(owner);
+  }
+
   static storeName(name: string) {
     const validate = new Validate('Name');
     validate.required(name);
@@ -58,5 +64,11 @@ export default class ValidateStore extends Validate {
     ValidateStore.adress(storeData.address);
     ValidateStore.logo(storeData.logo);
     ValidateStore.url(storeData.url);
+    ValidateStore.owner(storeData.owner);
   }
+
+  static response(response: Store): void {
+    if (!response) throw new CustomError( statusCode.INTERNAL_SERVER_ERROR,'Error creating store');
+  }
+
 }

@@ -2,7 +2,8 @@ export interface IStoreCreate {
   name: string,
   address: string,
   logo: string,
-  url: string
+  url: string,
+  owner: number
 }
 
 export interface IStoreUpdate {
@@ -12,3 +13,15 @@ export interface IStoreUpdate {
   url?: string
 }
 
+export interface IStoreFilter {
+  name?: string,
+  address?: string,
+  logo?: string,
+  url?: string,
+  createdAt?: string,
+  updatedAt?: string,
+  page?: string,
+  limit?: string,
+  owner?: string,
+  createdBy?: string
+}

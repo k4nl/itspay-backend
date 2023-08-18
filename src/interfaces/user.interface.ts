@@ -15,13 +15,14 @@ export interface IUserFindUnique {
 }
 
 export interface IUserFilter {
-  id?: number;
   email?: string;
   name?: string;
   createdAt?: Date;
   updatedAt?: Date;
   page?: number;
   limit?: number;
+  owner?: number;
+  createdBy?: number;
 }
 
 export interface IUserLogin {
