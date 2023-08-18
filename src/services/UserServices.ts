@@ -4,7 +4,6 @@ import {
   IUserUpdate,
   IUserFilter,
   IUserLogin,
-  IUserResponse
 } from "../interfaces/user.interface";
 import { PrismaClient } from "@prisma/client";
 import { User } from "../models/user.model";
@@ -26,7 +25,6 @@ class UserService {
   };
 
   static async findByUniqueKey(key: IUserFindUnique): Promise<Partial<User> | null> {
-    Validate.uniqueKey(key);
     const response: Partial<User> | null = key.id
       ? await this.prisma.user.findUnique({ where: { id: key.id }, select: this.excludePassword })
       : await this.prisma.user.findUnique({ where: { email: key.email }, select: this.excludePassword })
@@ -35,7 +33,6 @@ class UserService {
   }
 
   static async create(userData: IUserCreate) {
-    Validate.userCreateData(userData);
     const userExists = await this.findByUniqueKey({ email: userData.email });
     Validate.userAlreadyExists(userExists);
     const hashedPassword = await Bcrypt.hash(userData.password);
@@ -44,7 +41,6 @@ class UserService {
   }
 
   static async update(id: number, userData: IUserUpdate): Promise<Partial<User>> {
-    Validate.userUpdateData(userData);
     const userExists = await this.findByUniqueKey({ id })
     Validate.userNotFound(userExists);
     const hashedPassword = userData.password ? await Bcrypt.hash(userData.password) : undefined;
@@ -89,7 +85,6 @@ class UserService {
   }
 
   static async login(loginData: IUserLogin): Promise<Partial<User> | null> {
-    Validate.loginData(loginData);
     const response: User = await this.prisma.user.findUnique({ where: { email: loginData.email } });
     Validate.userNotFound(response);
     await Bcrypt.compare(loginData.password, response.password);

@@ -39,7 +39,6 @@ class StoreServices {
   }
 
   static async create(storeData: IStoreCreate, userData: IUserAuth): Promise<Store> {
-    Validate.validateStore(storeData);
     const user = await UserService.findByUniqueKey({ id: storeData.owner });
     ValidateUser.userNotFound(user);
     const response: Store = await this.prisma.store.create({
@@ -67,35 +66,33 @@ class StoreServices {
     return response;
   }
 
-  static async findStoreById(id: number): Promise<Store>  {
-    Validate.id(id);
+  static async findStoreById(id: string): Promise<Store>  {
     const response: Store = await this.prisma.store.findUnique({
-      where: { id },
+      where: { id: Number(id) },
       select: this.includeUserStores,
     });
     Validate.found(response);
     return response;
   }
 
-  static async update(id: number, storeData: IStoreUpdate): Promise<Store> {
+  static async update(id: string, storeData: IStoreUpdate): Promise<Store> {
     await this.findStoreById(id);
-    Validate.validateStoreUpdate(storeData);
     if (storeData.owner) {
       const user = await UserService.findByUniqueKey({ id: storeData.owner });
       ValidateUser.userNotFound(user);
     }
     const { owner, ...data } = storeData;
     const response: Store = await this.prisma.store.update({
-      where: { id },
+      where: { id: Number(id) },
       data: { ...data, updatedAt: new Date(), owner: { update: { ownerId: owner } } },
     });
     return response;
   }
 
-  static async delete(id: number): Promise<void> {
+  static async delete(id: string): Promise<void> {
     await this.findStoreById(id);
     await this.prisma.store.delete({
-      where: { id }
+      where: { id: Number(id) }
     });
   }
 
