@@ -23,6 +23,7 @@ router.delete(
   UserMiddleware.delete,
   UserController.delete
 );
+
 router.put(
   '/:id',
   Auth.validateToken,

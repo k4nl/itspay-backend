@@ -17,6 +17,15 @@ router.delete(
   StoreMiddleware.delete,
   StoreController.delete
 );
+
+router.delete(
+  '/',
+  Auth.validateToken,
+  StoreMiddleware.deleteMany,
+  StoreController.deleteMany
+);
+
+
 router.put(
   '/:id',
   Auth.validateToken,

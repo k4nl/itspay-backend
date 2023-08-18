@@ -79,4 +79,28 @@ export default class ValidateStore extends Validate {
     if (!response) throw new CustomError( statusCode.INTERNAL_SERVER_ERROR,'Error creating store');
   }
 
+  static storesId(stores: string): void {
+    try {
+      stores = JSON.parse(stores);
+    } catch (error) {
+      throw new CustomError( statusCode.BAD_REQUEST,'Stores must be an array');
+    }
+    if (!stores) throw new CustomError( statusCode.BAD_REQUEST,'Stores is required');
+    if (!Array.isArray(stores)) throw new CustomError( statusCode.BAD_REQUEST,'Stores must be an array');
+    if (stores.length === 0) throw new CustomError( statusCode.BAD_REQUEST,'Stores is empty');
+    const arrayToVerifyUniqueStores = [] // this array is used to verify if there are repeated stores
+    for (const store of stores) {
+      ValidateStore.id(store);
+      if (arrayToVerifyUniqueStores.includes(store)) throw new CustomError( statusCode.BAD_REQUEST,`Store ${store} is repeated`);
+      arrayToVerifyUniqueStores.push(store);
+    }
+  }
+
+  static allStoresFound(stores: any[], ids: number[]) {
+    if (!stores.length) throw new CustomError( statusCode.NOT_FOUND,'Stores not found');
+    for (const store of stores) {
+      if (!ids.includes(store.id)) throw new CustomError( statusCode.NOT_FOUND,`Store ${store.id} not found`);
+    }
+  }
+
 }
