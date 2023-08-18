@@ -16,7 +16,7 @@ export default class UserController {
 
   static async get(req: Request, res: Response) {
     try {
-      const response = await StoreServices.findStoreById(Number(req.params.id));
+      const response = await StoreServices.findStoreById(req.params.id);
       return res.status(statusCode.SUCCESS).json(response);
     } catch (error: IError | any) {
       return res.status(error.status).json(error.data);
@@ -34,7 +34,7 @@ export default class UserController {
 
   static async delete(req: Request, res: Response) {
     try {
-      const response = await StoreServices.delete(Number(req.params.id));
+      const response = await StoreServices.delete(req.params.id);
       return res.status(statusCode.SUCCESS).json(response);
     } catch (error: IError | any) {
       if (!error.status) return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' });
@@ -44,7 +44,7 @@ export default class UserController {
 
   static async update(req: Request, res: Response) {
     try {
-      const response = await StoreServices.update(Number(req.params.id), req.body);
+      const response = await StoreServices.update(req.params.id, req.body);
       return res.status(statusCode.SUCCESS).json(response);
     } catch (error: IError | any) {
       return res.status(error.status).json(error.data);

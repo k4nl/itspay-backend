@@ -1,6 +1,8 @@
-export default interface IRequest {
+import { Request } from "express"
+
+export default interface IRequest extends Request{
   body: any,
   params: any,
-  query: string,
+  query: any,
   user?: any
 }

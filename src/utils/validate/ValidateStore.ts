@@ -43,9 +43,9 @@ export default class ValidateStore extends Validate {
     validate.string(url);
   }
 
-  static id(id: number) {
+  static id(id: string) {
     if (!id) throw new CustomError( statusCode.BAD_REQUEST,'Id is required');
-    if (typeof id !== 'number') throw new CustomError( statusCode.BAD_REQUEST,'Id must be a number');
+    if (!isNaN(Number(id))) throw new CustomError( statusCode.BAD_REQUEST,'Id must be a number');
   }
 
   static found(store: Store) {
