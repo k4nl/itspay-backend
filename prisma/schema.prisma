@@ -27,7 +27,7 @@ model Store {
   updatedAt     DateTime?   @updatedAt
   createdBy     Int
   url           String
-  createdByUser User        @relation(fields: [createdBy], references: [id])
+  createdByUser User        @relation(fields: [createdBy], references: [id], onDelete: Cascade)
   owner         UserStores?
 }
 
@@ -37,6 +37,6 @@ model UserStores {
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
   ownerId   Int
-  userInfo  User      @relation(fields: [ownerId], references: [id])
-  storeInfo Store     @relation(fields: [storeId], references: [id])
+  userInfo  User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  storeInfo Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
 }

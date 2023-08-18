@@ -4,6 +4,8 @@ import {
   IUserUpdate,
   IUserFilter,
   IUserLogin,
+  IUserResponse,
+  IUserPaginatedResponse,
 } from "../interfaces/user.interface";
 import { PrismaClient } from "@prisma/client";
 import { User } from "../models/user.model";
@@ -24,7 +26,7 @@ class UserService {
     name: true 
   };
 
-  static async findByUniqueKey(key: IUserFindUnique): Promise<Partial<User> | null> {
+  static async findByUniqueKey(key: IUserFindUnique): Promise<IUserResponse> {
     const response: Partial<User> | null = key.id
       ? await this.prisma.user.findUnique({ where: { id: key.id }, select: this.excludePassword })
       : await this.prisma.user.findUnique({ where: { email: key.email }, select: this.excludePassword })
@@ -32,8 +34,8 @@ class UserService {
     return response;
   }
 
-  static async create(userData: IUserCreate) {
-    const userExists = await this.findByUniqueKey({ email: userData.email });
+  static async create(userData: IUserCreate): Promise<IUserResponse> {
+    const userExists = (await this.findByUniqueKey({ email: userData.email }));
     Validate.userAlreadyExists(userExists);
     const hashedPassword = await Bcrypt.hash(userData.password);
     const response: Partial<User> = await this.prisma.user.create({ data: { ...userData, password: hashedPassword }, select: this.excludePassword });
@@ -55,33 +57,20 @@ class UserService {
     await this.prisma.user.delete({ where: { id } });
   }
 
-  static async filter(filter: IUserFilter): Promise<Partial<User>[]> {
+  static async getAll(filter: IUserFilter | null | undefined): Promise<IUserPaginatedResponse> {
     const filterObj = Filter.createUserFilter(filter);
     const { limit, offset } = Pagination.handlePage(filter);
-    const response: User[] = await this.prisma.user.findMany({
+    const response: IUserResponse[] = await this.prisma.user.findMany({
       where: filterObj,
-      select: this.excludePassword,
+      select: {...this.excludePassword },
       orderBy: {
         createdAt: 'desc'
       },
       take: limit,
       skip: offset
     });
-    return response;
-  }
-
-  static async getAll(filter: IUserFilter | null | undefined): Promise<Partial<User>[]> {
-    if (filter) return this.filter(filter);
-    const { limit, offset } = new Pagination().defaultPagination;
-    const response: User[] = await this.prisma.user.findMany({
-      select: this.excludePassword,
-      orderBy: {
-        createdAt: 'desc'
-      },
-      take: limit,
-      skip: offset
-    });
-    return response;
+    const total = await this.prisma.user.count({ where: filterObj });
+    return { response, pagination: { limit, total, page: filter.page || 1, pageSize: response.length } };
   }
 
   static async login(loginData: IUserLogin): Promise<Partial<User> | null> {

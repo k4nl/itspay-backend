@@ -1,3 +1,6 @@
+import { Store } from '../models/store.model';
+import { IPaginationResponse } from './pagination.interface';
+
 export interface IStoreCreate {
   name: string,
   address: string,
@@ -25,4 +28,9 @@ export interface IStoreFilter {
   limit?: string,
   owner?: string,
   createdBy?: string
+}
+
+export interface IStorePaginatedResponse {
+  response: Store[],
+  pagination: IPaginationResponse
 }

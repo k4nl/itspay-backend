@@ -1,8 +1,7 @@
-import { IStoreCreate, IStoreUpdate } from "../interfaces/store.interface";
+import { IStoreCreate, IStoreUpdate, IStorePaginatedResponse } from "../interfaces/store.interface";
 import { IUserAuth } from "../interfaces/user.interface";
 import { PrismaClient } from "@prisma/client";
 import { Store } from "../models/store.model";
-import { UserStores } from "../models/userStores.model";
 import Filter from "../utils/Filter";
 import Pagination from "../utils/Pagination";
 import Validate from "../utils/validate/ValidateStore";
@@ -96,7 +95,7 @@ class StoreServices {
     });
   }
 
-  static async getAll(filter: any): Promise<Store[]>  {
+  static async getAll(filter: any): Promise<IStorePaginatedResponse>  {
     const filterData = Filter.createStoreFilter(filter);
     const { limit, offset } = Pagination.handlePage(filter);
     const response: Store[] = await this.prisma.store.findMany({
@@ -105,7 +104,10 @@ class StoreServices {
       take: limit,
       skip: offset,
     });
-    return response;
+
+    const total = await this.prisma.store.count({ where: { ...filterData } });
+
+    return { response, pagination: { limit, total, page: filter.page || 1, pageSize: response.length } };
   }
 
 }
