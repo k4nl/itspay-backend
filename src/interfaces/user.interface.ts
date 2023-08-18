@@ -1,3 +1,6 @@
+import { User } from '../models/user.model';
+import { IPaginationResponse } from './pagination.interface';
+
 export interface IUserCreate {
   name: string;
   email: string;
@@ -31,12 +34,17 @@ export interface IUserLogin {
 }
 
 export interface IUserResponse {
-  id: number;
-  name: string;
-  email: string;
-  token: string;
-  createdAt: Date;
-  updatedAt: Date;
+  id?: number;
+  name?: string;
+  email?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  token?: string;
+}
+
+export interface IUserPaginatedResponse {
+  response: Partial<IUserResponse[]>;
+  pagination?: IPaginationResponse;
 }
 
 export interface IUserAuth {

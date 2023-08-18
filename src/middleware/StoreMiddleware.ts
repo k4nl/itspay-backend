@@ -1,7 +1,7 @@
-import ValidateStore from "utils/validate/ValidateStore";
+import ValidateStore from "../utils/validate/ValidateStore";
 import { Response, NextFunction } from "express";
 import Request from "../interfaces/request.interface";
-import { IError } from "interfaces/error.interface";
+import { IError } from "../interfaces/error.interface";
 
 export default class StoreMiddleware {
 

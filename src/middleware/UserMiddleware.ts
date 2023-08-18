@@ -1,6 +1,6 @@
-import ValidateUser from "utils/validate/ValidateUser";
+import ValidateUser from "../utils/validate/ValidateUser";
 import { Request, Response, NextFunction } from "express";
-import { IError } from "interfaces/error.interface";
+import { IError } from "../interfaces/error.interface";
 
 export default class UserMiddleware {
 

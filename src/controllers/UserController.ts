@@ -2,6 +2,7 @@ import UserServices from "../services/UserServices";
 import { IError } from "../interfaces/error.interface";
 import { Request, Response } from "express";
 import { statusCode } from "../utils/status";
+import Pagination from "../utils/Pagination";
 
 export default class UserController {
   static async create(req: Request, res: Response) {
@@ -24,7 +25,8 @@ export default class UserController {
 
   static async getAll(req: Request, res: Response) {
     try {
-      const response = await UserServices.getAll(req.query);
+      const { response, pagination } = await UserServices.getAll(req.query);
+      Pagination.createPaginationResponse(pagination, res);
       return res.status(statusCode.SUCCESS).json(response);
     } catch (error: IError | any) {
       return res.status(error.status).json(error.data);

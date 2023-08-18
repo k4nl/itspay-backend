@@ -23,8 +23,8 @@ export default class Validate {
     }
   }
 
-  number(value: number) {
-    if (typeof value !== 'number') {
+  number(value: string | number) {
+    if (isNaN(Number(value))) {
       throw new CustomError(statusCode.BAD_REQUEST, `${this.isInvalid} a number`);
     }
   }

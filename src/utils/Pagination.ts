@@ -1,4 +1,5 @@
-import { IPagination } from "interfaces/pagination.interface";
+import { IPagination, IPaginationResponse } from "interfaces/pagination.interface";
+import { Response } from "express";
 import Validate from "./validate";
 
 export default class Pagination {
@@ -26,5 +27,13 @@ export default class Pagination {
       defaultPagination.offset = this.getOffset(pagination.page, defaultPagination.limit);
     }
     return defaultPagination;
+  }
+
+  static createPaginationResponse({ limit, total, page, pageSize }: IPaginationResponse, res: Response): void {
+    const totalPages = Math.ceil(total / limit);
+    res.header('Current-Page', page.toString());
+    res.header('Page-Size', pageSize.toString());
+    res.header('Total-Count', total.toString());
+    res.header('Total-Pages', totalPages.toString());
   }
 }
