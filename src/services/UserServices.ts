@@ -37,7 +37,6 @@ class UserService {
   static async create(userData: IUserCreate) {
     Validate.userCreateData(userData);
     const userExists = await this.findByUniqueKey({ email: userData.email });
-    console.log(userExists)
     Validate.userAlreadyExists(userExists);
     const hashedPassword = await Bcrypt.hash(userData.password);
     const response: Partial<User> = await this.prisma.user.create({ data: { ...userData, password: hashedPassword }, select: this.excludePassword });

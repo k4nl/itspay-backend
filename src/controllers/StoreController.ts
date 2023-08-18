@@ -10,7 +10,6 @@ export default class UserController {
       const response = await StoreServices.create(req.body, req.user);
       return res.status(statusCode.CREATED).json(response);
     } catch (error: IError | any) {
-      console.log(error)
       return res.status(error.status).json(error.data);
     }
   }
@@ -20,7 +19,6 @@ export default class UserController {
       const response = await StoreServices.findStoreById(Number(req.params.id));
       return res.status(statusCode.SUCCESS).json(response);
     } catch (error: IError | any) {
-      console.log(error)
       return res.status(error.status).json(error.data);
     }
   }
@@ -30,7 +28,6 @@ export default class UserController {
       const response = await StoreServices.getAll(req.query);
       return res.status(statusCode.SUCCESS).json(response);
     } catch (error: IError | any) {
-      console.log(error)
       return res.status(error.status).json(error.data);
     }
   }

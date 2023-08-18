@@ -9,7 +9,6 @@ export default class UserController {
       const response = await UserServices.create(req.body);
       return res.status(statusCode.CREATED).json(response);
     } catch (error: IError | any) {
-      console.log(error);
       return res.status(error.status).json(error.data);
     }
   }
@@ -28,7 +27,6 @@ export default class UserController {
       const response = await UserServices.getAll(req.query);
       return res.status(statusCode.SUCCESS).json(response);
     } catch (error: IError | any) {
-      console.log(error)
       return res.status(error.status).json(error.data);
     }
   }
