@@ -48,7 +48,6 @@ export default class StoreMiddleware {
       req.query.ids = JSON.parse(req.query.ids);
       next();
     } catch (error: IError | any) {
-      console.log(error)
       return res.status(error.status).json(error.data);
     }
   }
