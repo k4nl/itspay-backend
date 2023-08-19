@@ -73,11 +73,11 @@ class UserService {
     return { response, pagination: { limit, total, page: filter.page || 1, pageSize: response.length } };
   }
 
-  static async login(loginData: IUserLogin): Promise<Partial<User> | null> {
+  static async login(loginData: IUserLogin): Promise<IUserResponse | null> {
     const response: User = await this.prisma.user.findUnique({ where: { email: loginData.email } });
     Validate.userNotFound(response);
     await Bcrypt.compare(loginData.password, response.password);
-    return { name: response.name, email: response.email, id: response.id };
+    return { name: response.name, email: response.email, id: response.id, token: Auth.createToken({ id: response.id, email: response.email }) };
   }
 
 }
