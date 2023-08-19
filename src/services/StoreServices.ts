@@ -38,8 +38,14 @@ class StoreServices {
   }
 
   static async create(storeData: IStoreCreate, userData: IUserAuth): Promise<Store> {
-    const user = await UserService.findByUniqueKey({ id: storeData.owner });
-    ValidateUser.userNotFound(user);
+    const users = Promise.all(
+      [
+        await UserService.findByUniqueKey({ id: userData.id }),
+        await UserService.findByUniqueKey({ id: storeData.owner })
+      ]
+    )
+    ValidateUser.userNotFound(users[0], userData.id.toString());
+    ValidateUser.userNotFound(users[1], storeData.owner.toString());
     const response: Store = await this.prisma.store.create({
       data: {
         name: storeData.name,
@@ -78,7 +84,7 @@ class StoreServices {
     await this.findStoreById(id);
     if (storeData.owner) {
       const user = await UserService.findByUniqueKey({ id: storeData.owner });
-      ValidateUser.userNotFound(user);
+      ValidateUser.userNotFound(user, storeData.owner.toString());
     }
     const { owner, ...data } = storeData;
     const response: Store = await this.prisma.store.update({

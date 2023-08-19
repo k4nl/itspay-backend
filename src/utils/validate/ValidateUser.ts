@@ -57,9 +57,9 @@ export default class ValidateUser extends Validate {
     }
   }
 
-  static userNotFound(user: Partial<User> | null) {
+  static userNotFound(user: Partial<User> | null, message?: string) {
     if(!user) {
-      throw new CustomError(statusCode.NOT_FOUND, 'User not found');
+      throw new CustomError(statusCode.NOT_FOUND, `${`User ${message} not found`}`);
     }
   }
 
