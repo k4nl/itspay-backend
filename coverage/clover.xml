@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1692482588234" clover="3.2.0">
+  <project timestamp="1692482588234" name="All files">
+    <metrics statements="129" coveredstatements="98" conditionals="11" coveredconditionals="0" methods="29" coveredmethods="17" elements="169" coveredelements="115" complexity="0" loc="129" ncloc="129" packages="4" files="8" classes="8"/>
+    <package name="controllers">
+      <metrics statements="60" coveredstatements="58" conditionals="2" coveredconditionals="0" methods="12" coveredmethods="12"/>
+      <file name="StoreController.ts" path="C:\Users\gusta\projetos\itspay\src\controllers\StoreController.ts">
+        <metrics statements="31" coveredstatements="30" conditionals="2" coveredconditionals="0" methods="6" coveredmethods="6"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="10" count="2" type="stmt"/>
+        <line num="11" count="2" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="19" count="2" type="stmt"/>
+        <line num="20" count="2" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="38" count="2" type="stmt"/>
+        <line num="39" count="2" type="stmt"/>
+        <line num="40" count="1" type="stmt"/>
+        <line num="42" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="48" count="2" type="stmt"/>
+        <line num="49" count="2" type="stmt"/>
+        <line num="50" count="1" type="stmt"/>
+        <line num="52" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="53" count="1" type="stmt"/>
+        <line num="58" count="2" type="stmt"/>
+        <line num="59" count="2" type="stmt"/>
+        <line num="60" count="1" type="stmt"/>
+        <line num="62" count="1" type="stmt"/>
+      </file>
+      <file name="UserController.ts" path="C:\Users\gusta\projetos\itspay\src\controllers\UserController.ts">
+        <metrics statements="29" coveredstatements="28" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="6"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="9" count="2" type="stmt"/>
+        <line num="10" count="2" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="18" count="2" type="stmt"/>
+        <line num="19" count="2" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="37" count="2" type="stmt"/>
+        <line num="38" count="2" type="stmt"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="46" count="2" type="stmt"/>
+        <line num="47" count="2" type="stmt"/>
+        <line num="48" count="1" type="stmt"/>
+        <line num="50" count="1" type="stmt"/>
+        <line num="55" count="3" type="stmt"/>
+        <line num="56" count="3" type="stmt"/>
+        <line num="57" count="1" type="stmt"/>
+        <line num="59" count="2" type="stmt"/>
+      </file>
+    </package>
+    <package name="tests.mocks">
+      <metrics statements="24" coveredstatements="24" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
+      <file name="store.mock.ts" path="C:\Users\gusta\projetos\itspay\src\tests\mocks\store.mock.ts">
+        <metrics statements="16" coveredstatements="16" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="10" count="12" type="stmt"/>
+        <line num="11" count="12" type="stmt"/>
+        <line num="12" count="12" type="stmt"/>
+        <line num="13" count="12" type="stmt"/>
+        <line num="14" count="12" type="stmt"/>
+        <line num="15" count="12" type="stmt"/>
+        <line num="16" count="12" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
+      </file>
+      <file name="user.mock.ts" path="C:\Users\gusta\projetos\itspay\src\tests\mocks\user.mock.ts">
+        <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="11" count="14" type="stmt"/>
+        <line num="12" count="14" type="stmt"/>
+        <line num="13" count="14" type="stmt"/>
+        <line num="14" count="14" type="stmt"/>
+        <line num="15" count="14" type="stmt"/>
+        <line num="16" count="14" type="stmt"/>
+        <line num="17" count="14" type="stmt"/>
+      </file>
+    </package>
+    <package name="utils">
+      <metrics statements="23" coveredstatements="12" conditionals="2" coveredconditionals="0" methods="6" coveredmethods="2"/>
+      <file name="CustomError.ts" path="C:\Users\gusta\projetos\itspay\src\utils\CustomError.ts">
+        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="5" count="9" type="stmt"/>
+        <line num="6" count="9" type="stmt"/>
+        <line num="7" count="9" type="stmt"/>
+      </file>
+      <file name="Pagination.ts" path="C:\Users\gusta\projetos\itspay\src\utils\Pagination.ts">
+        <metrics statements="18" coveredstatements="7" conditionals="2" coveredconditionals="0" methods="5" coveredmethods="1"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="23" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="26" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="33" count="2" type="stmt"/>
+        <line num="34" count="2" type="stmt"/>
+        <line num="35" count="2" type="stmt"/>
+        <line num="36" count="2" type="stmt"/>
+        <line num="37" count="2" type="stmt"/>
+      </file>
+      <file name="status.ts" path="C:\Users\gusta\projetos\itspay\src\utils\status.ts">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="2" type="stmt"/>
+      </file>
+    </package>
+    <package name="utils.validate">
+      <metrics statements="22" coveredstatements="4" conditionals="7" coveredconditionals="0" methods="8" coveredmethods="0"/>
+      <file name="index.ts" path="C:\Users\gusta\projetos\itspay\src\utils\validate\index.ts">
+        <metrics statements="22" coveredstatements="4" conditionals="7" coveredconditionals="0" methods="8" coveredmethods="0"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="15" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="21" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="27" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="34" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="35" count="0" type="stmt"/>
+        <line num="40" count="0" type="stmt"/>
+        <line num="41" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="42" count="0" type="stmt"/>
+        <line num="47" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="48" count="0" type="stmt"/>
+        <line num="53" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="54" count="0" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>

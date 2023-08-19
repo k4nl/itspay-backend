@@ -11,21 +11,17 @@ import {
 
 import CustomError from "../../utils/CustomError";
 import { statusCode } from "../../utils/status";
-import { create } from "domain";
-
 
 let mockRequest = {} as IRequest;
 let mockResponse = {
   status: jest.fn().mockReturnThis(),
   json: jest.fn(),
-  header: jest.fn()
+  header: jest.fn(),
+  getHeader: jest.fn(),
 } as unknown as Response;
 
 const userNotFound = new CustomError(statusCode.NOT_FOUND, "User 1 not found");
 const storeNotFound = new CustomError(statusCode.NOT_FOUND, "Store not found");
-const storeAlreadyExists = new CustomError(statusCode.CONFLICT, "Store already exists");
-
-
 
 jest.mock("../../services/StoreServices", () => ({
   create: jest.fn().mockResolvedValue({
@@ -193,6 +189,16 @@ describe("StoreController", () => {
       store2.id = 2;
       mockRequest.query = { page: 1, limit: 10 };
 
+      
+      mockResponse.header = jest.fn().mockReturnValue({
+        'Current-Page': '1',
+        'Page-Size': '1',
+        'Total-Count': '1',
+        'Total-Pages': '1'
+      });
+
+      mockResponse.getHeader = jest.fn().mockReturnValue('1');
+
       // Act
 
       await StoreController.getAll(mockRequest, mockResponse);
@@ -201,6 +207,10 @@ describe("StoreController", () => {
       expect(StoreServices.getAll).toHaveBeenCalledWith(mockRequest.query);
       expect(mockResponse.status).toHaveBeenCalledWith(statusCode.SUCCESS);
       expect(mockResponse.json).toHaveBeenCalledWith([ store1, store2 ]);
+      expect(mockResponse.getHeader('Current-Page')).toBe('1');
+      expect(mockResponse.getHeader('Page-Size')).toBe('1');
+      expect(mockResponse.getHeader('Total-Count')).toBe('1');
+      expect(mockResponse.getHeader('Total-Pages')).toBe('1');
 
     });
 

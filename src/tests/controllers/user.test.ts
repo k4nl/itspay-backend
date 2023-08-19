@@ -293,13 +293,7 @@ describe("User Controller", () => {
       mockRequest.query = { page: 1, limit: 10 };
       const response = [{ id: user.id, email: user.email, name: user.name }];
       const pagination = { page: 1, limit: 10, pageSize: 1, total: 1 };
-      const headers = {
-        'Current-Page': '1',
-        'Page-Size': '1',
-        'Total-Count': '1',
-        'Total-Pages': '1'
-      }
-    
+
       mockResponse.header = jest.fn().mockReturnValue({
         'Current-Page': '1',
         'Page-Size': '1',
