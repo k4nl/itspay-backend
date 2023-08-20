@@ -4,16 +4,11 @@ import ValidateStore from "../../../utils/validate/ValidateStore";
 import { Store } from "../../mocks/store.mock"
 import { IStoreCreate } from "../../../interfaces/store.interface";
 
-
-const unauthorized = new CustomError(statusCode.UNAUTHORIZED, 'Unauthorized');
 const invalidEmail = new CustomError(statusCode.BAD_REQUEST, 'Invalid field Email');
-const incorrectEmailFormat = new CustomError(statusCode.BAD_REQUEST, 'Email must be a string');
 const incorrectIdFormat = new CustomError(statusCode.BAD_REQUEST, 'Id must be a number');
 const idIsRequired = new CustomError(statusCode.BAD_REQUEST, 'Id is required');
 const noData = new CustomError(statusCode.BAD_REQUEST, 'No data to update');
 const storeNotFound = new CustomError(statusCode.NOT_FOUND, 'Store not found');
-const errorCreatingStore = new CustomError(statusCode.INTERNAL_SERVER_ERROR, 'Error creating store');
-const repeatedStore = new CustomError( statusCode.BAD_REQUEST,`Store 1 is repeated`);
 const storeOneNotFound = new CustomError( statusCode.NOT_FOUND,`Store 1 not found`);
 
 describe('ValidateStore', () => {
