@@ -1,15 +1,15 @@
 import { IStoreCreate, IStoreUpdate, IStorePaginatedResponse } from "../interfaces/store.interface";
 import { IUserAuth } from "../interfaces/user.interface";
-import { PrismaClient } from "@prisma/client";
 import { Store } from "../models/store.model";
 import Filter from "../utils/Filter";
 import Pagination from "../utils/Pagination";
 import Validate from "../utils/validate/ValidateStore";
 import ValidateUser from "../utils/validate/ValidateUser";
 import UserService from "./UserServices";
+import client from "../../prisma/client";
 
 class StoreServices {
-  private static prisma = new PrismaClient();
+  private static prisma = client;
   private static includeUserStores = {
   id:true,
   name:true,
