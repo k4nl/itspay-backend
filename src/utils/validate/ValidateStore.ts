@@ -7,7 +7,7 @@ import { Store } from "models/store.model";
 
 export default class ValidateStore extends Validate {
 
-  static updateFields: string[] = ['name', 'address', 'logo', 'url', 'owner'];
+  private static updateFields: string[] = ['name', 'address', 'logo', 'url', 'owner'];
 
   static empty(data: any) {
     if (Object.keys(data).length === 0) throw new CustomError( statusCode.BAD_REQUEST, 'No data to update');
