@@ -38,7 +38,7 @@ class StoreServices {
   }
 
   static async create(storeData: IStoreCreate, userData: IUserAuth): Promise<Store> {
-    const users = Promise.all(
+    const users = await Promise.all(
       [
         await UserService.findByUniqueKey({ id: userData.id }),
         await UserService.findByUniqueKey({ id: storeData.owner })

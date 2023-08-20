@@ -48,5 +48,5 @@ export interface IUserPaginatedResponse {
 
 export interface IUserAuth {
   id: number;
-  email: number;
+  email: string;
 }
