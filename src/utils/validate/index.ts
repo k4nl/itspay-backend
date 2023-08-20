@@ -49,6 +49,12 @@ export default class Validate {
     }
   }
 
+  static user(user: any) {
+    if (!user) {
+      throw new CustomError(statusCode.UNAUTHORIZED, 'Unauthorized');
+    }
+  }
+
   static headers(headers: any) {
     if (!headers.authorization) {
       throw new CustomError(statusCode.UNAUTHORIZED, 'Unauthorized');

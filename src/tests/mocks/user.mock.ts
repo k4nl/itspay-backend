@@ -13,7 +13,7 @@ export class User {
     this.id = 1
     this.token = "token"
     this.password = "123456"
-    this.createdAt = new Date()
-    this.updatedAt = new Date()
+    this.createdAt = new Date('01/01/2021');
+    this.updatedAt = new Date('01/01/2021');
   }
 }

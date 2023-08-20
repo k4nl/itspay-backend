@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { Response } from "express";
 import { statusCode } from "../utils/status";
 import UserServices from "../services/UserServices";
+import { IError } from "interfaces/error.interface";
 require("dotenv").config();
 
 export default class Auth {
@@ -22,10 +23,11 @@ export default class Auth {
       const decoded = jwt.verify(authorization, process.env.SECRET_KEY as string);
       Validate.token(decoded);
       const user = await UserServices.findByUniqueKey({ id: decoded['user'].id });
+      Validate.user(user);
       request.user = decoded['user'];
       next();
-    } catch (error) {
-      return response.status(statusCode.UNAUTHORIZED).json({ message: 'Unauthorized' });
+    } catch (error: IError | any) {
+      return response.status(statusCode.UNAUTHORIZED).json(error.data || "Unauthorized");
     }
   }
 }
