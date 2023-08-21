@@ -55,8 +55,6 @@ DATABASE_URL_DOCKER="postgresql://postgres:postgres@postgres:5432/itspay?schema=
         https://docs.docker.com/get-docker/
         ```
 
-        **Atualize **
-
         **Execute os comandos no seu terminal**
 
         ```
@@ -193,7 +191,7 @@ Resposta - body
 ]
 ```
 ```
-Responsta - headers
+Resposta - headers
 "Current-Page": 1
 "Page-Size": 2
 "Total-Count": 2
@@ -323,7 +321,7 @@ Resposta - body
 ]
 ```
 ```
-Responsta - headers
+Resposta - headers
 "Current-Page": 1
 "Page-Size": 1
 "Total-Count": 1
