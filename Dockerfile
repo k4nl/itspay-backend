@@ -8,6 +8,12 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 3000
+RUN apk add --no-cache python3 make g++
 
-CMD [ "npm", "start" ]
+RUN npm rebuild bcrypt --build-from-source
+
+RUN chmod +x scripts/start.sh
+
+EXPOSE 3001
+
+CMD ["npm", "run", "start:linux"]
