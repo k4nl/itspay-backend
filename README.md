@@ -1,6 +1,6 @@
 # Projeto Back-end Itspay
 ## pt-br
-![Itspay](./assets/logo.png)
+![Itspay](./assets/logo.png) <br>
 Processo seletivo de backend desenvolvido por Gustavo Braga
 
 # Teste Técnico em Node.js utilizando Express
@@ -26,30 +26,135 @@ git clone git@github.com:k4nl/itspay-backend.git
 cd itspay-backend
 ```
 
-2. **Instalar Dependências:**
+2. **Configurar Variáveis de Ambiente:**
 
+Renomeie o arquivo `.env.example` para `.env` e preencha as variáveis de ambiente necessárias, como informações de banco de dados e chaves secretas.<br>
+
+### Exemplo de um .env
 ```
-npm install
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=postgres
+DB_PASSWORD=postgres
+DB_DATABASE=itspay
+SECRET_KEY="secret"
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/itspay?schema=public"
+DATABASE_URL_DOCKER="postgresql://postgres:postgres@postgres:5432/itspay?schema=public"
 ```
 
-3. **Configurar o Banco de Dados:**
+3. **Como rodar o projeto:**
 
-Certifique-se de ter um banco de dados Postgres em execução.
+    1. **Utilizando Docker** <br>
 
-4. **Configurar Variáveis de Ambiente:**
+        Certifique-se de ter o docker instalado na sua maquina.
 
-Renomeie o arquivo `.env.example` para `.env` e preencha as variáveis de ambiente necessárias, como informações de banco de dados e chaves secretas.
+        Caso nao possua o docker instalado, siga o passo a passo no site.
+
+        **docker**
+        ```
+        https://docs.docker.com/get-docker/
+        ```
+
+        **Atualize **
+
+        **Execute os comandos no seu terminal**
+
+        ```
+        docker-compose build
+        docker-compose up
+        ```
+      
+    2. **Utilizando um ambiente linux** <br>
+
+        Certifique de ter o postgres instalado em sua maquina.
+
+         Caso nao possua o postgres instalado, siga o passo a passo no site.
+
+        **postgres**
+        ```
+        https://www.postgresql.org/download/
+        ```
+
+        Execute o comando para instalar as dependencias:
+
+        ```
+        npm install
+        ```
+
+        Configure o arquivo **schema.prisma** dentro da pasta prisma.
+        Voce devera trocar <br>
+
+        De:
+        ```
+        datasource db {
+          provider = "postgresql"
+          url      = env("DATABASE_URL_DOCKER")
+        }
+        ```
+
+         Para:
+        ```
+        datasource db {
+          provider = "postgresql"
+          url      = env("DATABASE_URL")
+        }
+        ```
+
+        Rode o comando
+        ```
+        npm run start:linux
+        ```
+
+    3. **Utilizando um ambiente windows** <br>
+
+      Certifique de ter o postgres instalado em sua maquina.
+      Caso nao possua o postgres instalado, siga o passo a passo no site.
+        
+      **postgres**
+      ```
+      https://www.postgresql.org/download/
+      ```
+
+      Execute o comando para instalar as dependencias:
+
+      ```
+      npm install
+      ```
+
+      Configure o arquivo **schema.prisma** dentro da pasta prisma.
+      Voce devera trocar <br>
+
+      De:
+      ```
+      datasource db {
+        provider = "postgresql"
+        url      = env("DATABASE_URL_DOCKER")
+      }
+      ```
+      Para:
+      ```
+      datasource db {
+        provider = "postgresql"
+        url      = env("DATABASE_URL")
+      }
+      ```
+
+      Atualize o path do script start:win dentro de package.json
+
+      **exemplo**
+      ```
+      "C:\\usuario\\seu_nome\\projetos\\itspay\\scripts\\start.bat"
+      ```
+
+      Rode o comando
+      ```
+      npm run start:win
+      ```
 
 5. **Executar Testes:**
 
 ```
 npm run test
-```
-
-6. **Executar o Servidor:**
-
-```
-npm start
 ```
 
 7. **Endpoints da API:**
