@@ -155,7 +155,7 @@ DATABASE_URL_DOCKER="postgresql://postgres:postgres@postgres:5432/itspay?schema=
 npm run test
 ```
 
-7. **Endpoints da API:**
+6. **Endpoints da API:**
 
 ### Usuario
 - `GET /user`: Retorna a lista de usuários.
