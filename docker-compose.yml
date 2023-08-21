@@ -23,7 +23,7 @@ services:
     ports:
       - 3000:3000
     container_name: itspay-api
-    command: npm run start:dev
+    command: npm run start:linux
     volumes:
       - .:/usr/app
     depends_on:

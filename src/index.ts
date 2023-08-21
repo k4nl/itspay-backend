@@ -11,6 +11,6 @@ app.use(bodyParser.json());
 app.use('/user', UserRoutes)
 app.use('/store', StoreRoutes)
 
-app.listen(3001, () => console.log(`Online na porta ${3001}!`));
+app.listen(3000, () => console.log(`Online na rota  ${3000}!`));
 
 export default app;
